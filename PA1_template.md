@@ -4,6 +4,7 @@ October 20, 2016
 
 
 ```r
+echo = TRUE
 ###################################################################################################
 ## E.D. October 2016
 ## DS 5 Reproducible Research - Project 1
@@ -85,6 +86,7 @@ print(paste("The Mean Per Day is",as.character(round(meanPerDayt)),sep = " "))
 [1] "The Mean Per Day is 10766"
 
 ```r
+echo = TRUE
 medPerDayt = median(TotalStepsEachDay, na.rm = TRUE)
 print(paste("The Median Per Day is",as.character(round(medPerDayt)),sep = " "))
 ```
@@ -95,6 +97,7 @@ print(paste("The Median Per Day is",as.character(round(medPerDayt)),sep = " "))
 [1] "The Median Per Day is 10765""
 
 ```r
+echo = TRUE
 ###################################################################################################
 ## 4.	Time series plot of the average number of steps taken
 
@@ -127,6 +130,7 @@ plot(meanInt,type = 'l',xlab = '5 Minute Interval',ylab = 'Average Across All Da
 ```
 
 ```r
+echo = TRUE
 ###################################################################################################
 ## 5.	The 5-minute interval that, on average, contains the maximum number of steps
 mean5minInt <- round(mean(MaxStepsInterval, na.rm = TRUE))
@@ -177,6 +181,7 @@ print(paste("The total number of missing intervals is ",as.character(numMissinte
 [1] "The total number of missing intervals is  2304"
 
 ```r
+echo = TRUE
 # Initialize an empty matrix
 DayList2 = matrix(data=NA,nrow=dim(DayList)[1],ncol=dim(DayList)[2])
 
@@ -203,6 +208,7 @@ print(paste("The Mean Per Day with no missing values is",as.character(round(mean
 [1] "The Mean Per Day with no missing values is 10766"
 
 ```r
+echo = TRUE
 medPerDay2 = median(colSums(DayList2))
 print(paste("The Median Per Day with no missing values is",as.character(round(medPerDay2)),sep = " "))
 ```
@@ -216,6 +222,7 @@ The data seems to be fairly similar as with the imputed missing values.
 
 
 ```r
+echo = TRUE
 ###################################################################################################
 ## 7.	Histogram of the total number of steps taken each day after missing values are imputed
 # Get unique days
