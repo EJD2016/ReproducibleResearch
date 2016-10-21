@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r}
-echo = TRUE
+#echo = TRUE
 ###################################################################################################
 ## E.D. October 2016
 ## DS 5 Reproducible Research - Project 1

@@ -68,7 +68,8 @@ hist(TotalStepsEachDay, breaks = 5, col="blue", main='Total Number of Steps Each
      ylab='5 Minutes Interval', xlab='# Steps per Day')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
+![]
+[a link] (https://github.com/EJD2016/ReproducibleResearch/blob/master/unnamed-chunk-1-1.png)<!-- -->
 
 ```r
 # Close the file.
@@ -122,7 +123,8 @@ for (i in 1:length(DaysSet)) {
 plot(meanInt,type = 'l',xlab = '5 Minute Interval',ylab = 'Average Across All Days', main='Average Daily Activity Pattern')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![]
+[a link] (https://github.com/EJD2016/ReproducibleResearch/blob/master/unnamed-chunk-3-1.png)<!-- -->
 
 ```r
 # Close the file.
@@ -246,7 +248,8 @@ hist(totPerDay2, breaks = 10, main = 'Total after missing values imputed',
      ylab = '5 Minutes Interval', xlab = 'Total Number of Steps', col='blue')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![]
+[a link] (https://github.com/EJD2016/ReproducibleResearch/blob/master/unnamed-chunk-7-1.png)<!-- -->
 
 ```r
 # Close the file.
@@ -310,7 +313,8 @@ plot(weekMeans,type = "l", xlab = '5 Minutes Interval', ylab = 'Average Number o
      main = 'Activity Pattern Weekdays')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-7-2.png)<!-- -->
+![]
+[a link] (https://github.com/EJD2016/ReproducibleResearch/blob/master/unnamed-chunk-7-2.png)<!-- -->
 
 ```r
 ## Close the file for the weekday plot.
