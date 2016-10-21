@@ -1,0 +1,327 @@
+# Reproducible Research: Peer Assessment 1 - PA1_template.Rmd
+E.D.  
+October 20, 2016  
+
+
+```r
+echo = TRUE
+###################################################################################################
+## E.D. October 2016
+## DS 5 Reproducible Research - Project 1
+
+###################################################################################################
+## 1.	Code for reading in the dataset and/or processing the data
+
+## Download the data file.
+if(!file.exists("./mydata_DS5")){dir.create("./mydata_DS5")}
+ fileUrl <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
+ download.file(fileUrl,destfile="./mydata_DS5/Dataset.zip")
+
+## Unzip the dataSet to /mydata_DS5 directory
+ unzip(zipfile="./mydata_DS5/Dataset.zip",exdir="./mydata_DS5")
+
+## Read in our data set
+ActivityData <- read.csv('./mydata_DS5/activity.csv',stringsAsFactors = FALSE)
+
+###################################################################################################
+## 2.	Histogram of the total number of steps taken each day
+
+## Generate a set of unique days
+DaysSet = unique(ActivityData$date)
+
+## Initialize Counters 
+TotalStepsEachDay = 0  
+MeanStepsEachDay = 0  
+MaxStepsEachDay = 0  
+MaxStepsInterval = vector(mode="numeric", length=length(DaysSet)) 
+
+## Examine each day, traverse the set.
+for (i in 1:length(DaysSet)) {
+  ## Temporary day
+  CurrentDay <- DaysSet[i]
+  ## Find index of intervals matching temporary day
+  CurrentDayIn <-ActivityData$date == CurrentDay
+  ## Use index to get step values and traverse.
+  GetStepValues <- ActivityData$steps[CurrentDayIn]
+  ## Find the maximum value for all intervals during a temporary day
+  MaxStepsEachDay[i] <- max(GetStepValues)
+  
+  ## Fill in the missing Maximum with NA
+  if (is.na(MaxStepsEachDay[i])){
+    MaxStepsInterval[i] = NA
+  }  else {
+    ## Else find the interval of maximum steps
+    MaxStepsInterval[i] <- which.max(GetStepValues)
+  }
+  
+  ## Find the total number of steps per day  
+  TotalStepsEachDay[i] = sum(GetStepValues)
+  ## Get average number of steps per interval per day
+  MeanStepsEachDay[i] = mean(GetStepValues, na.rm = TRUE)
+}
+
+## Setup a png file to prepare for a plot.
+#png("Plot2RR.png", width=480, height=480) 
+
+# Plot histogram of total number of steps per day
+hist(TotalStepsEachDay, breaks = 5, col="blue", main='Total Number of Steps Each Day',
+     ylab='5 Minutes Interval', xlab='# Steps per Day')
+```
+
+![]
+[a link] (https://github.com/EJD2016/ReproducibleResearch/blob/master/unnamed-chunk-1-1.png)<!-- -->
+
+```r
+# Close the file.
+#dev.off
+
+###################################################################################################
+## 3.	Mean and median number of steps taken each day
+meanPerDayt = mean(TotalStepsEachDay, na.rm = TRUE)
+print(paste("The Mean Per Day is",as.character(round(meanPerDayt)),sep = " "))
+```
+
+```
+## [1] "The Mean Per Day is 10766"
+```
+[1] "The Mean Per Day is 10766"
+
+```r
+echo = TRUE
+medPerDayt = median(TotalStepsEachDay, na.rm = TRUE)
+print(paste("The Median Per Day is",as.character(round(medPerDayt)),sep = " "))
+```
+
+```
+## [1] "The Median Per Day is 10765"
+```
+[1] "The Median Per Day is 10765""
+
+```r
+echo = TRUE
+###################################################################################################
+## 4.	Time series plot of the average number of steps taken
+
+## Compute the index for days with NA
+DaysSet = unique(ActivityData$date)
+
+DayList = vector(mode="numeric", length=0)
+
+## Traverse the Days Set
+for (i in 1:length(DaysSet)) {
+  
+  CurrentDay <- DaysSet[i]
+  CurrentDayIn <- ActivityData$date == CurrentDay
+  GetStepValues <- ActivityData$steps[CurrentDayIn]
+  DayList = cbind(DayList, GetStepValues) }
+
+  meanInt = round(rowMeans(DayList,na.rm = TRUE))
+
+## Setup a png file to prepare for a plot.
+#png("Plot4RR.png", width=480, height=480) 
+
+plot(meanInt,type = 'l',xlab = '5 Minute Interval',ylab = 'Average Across All Days', main='Average Daily Activity Pattern')
+```
+
+![]
+[a link] (https://github.com/EJD2016/ReproducibleResearch/blob/master/unnamed-chunk-3-1.png)<!-- -->
+
+```r
+# Close the file.
+#dev.off()
+```
+
+```r
+echo = TRUE
+###################################################################################################
+## 5.	The 5-minute interval that, on average, contains the maximum number of steps
+mean5minInt <- round(mean(MaxStepsInterval, na.rm = TRUE))
+print(paste(as.character(mean5minInt)," is the 5-minute interval that, on average, contains the max number of steps",sep = " "))
+```
+
+```
+## [1] "145  is the 5-minute interval that, on average, contains the max number of steps"
+```
+
+```r
+## [1] "145  is the 5-minute interval that, on average, contains the max number of steps"
+
+###################################################################################################
+## 6.	Code to describe and show a strategy for imputing missing data
+
+## Algorithm:
+## Initialize a maxtrix (r,c), where r=intervals and c= days.
+## Look at each row of the matrix that has an interval for all days.
+## Determine the index of the days with missing days for a particular interval.
+## Calculate the average of days with intervals present
+## Replace the intervals of NA, with the average of the intervals that possess data.
+
+# Unique days
+DaysSet = unique(ActivityData$date)
+# Initialize the vector
+DayList = vector(mode="numeric", length=0)
+
+# Traverse the Days Set
+for (i in 1:length(DaysSet)) {
+  # Get temporary day
+  CurrentDay <- DaysSet[i]
+  # Get index for temporary day
+  CurrentDayIn <- ActivityData$date == CurrentDay
+  # Use index to get interval step data
+  GetStepValues <- ActivityData$steps[CurrentDayIn]
+  # Insert interval data into column of matrix
+  DayList = cbind(DayList, GetStepValues)  }
+
+## Number of missing intervals
+numMissintervals = sum(is.na(DayList))
+print(paste("The total number of missing intervals is ",as.character(numMissintervals),sep = " "))
+```
+
+```
+## [1] "The total number of missing intervals is  2304"
+```
+[1] "The total number of missing intervals is  2304"
+
+```r
+echo = TRUE
+# Initialize an empty matrix
+DayList2 = matrix(data=NA,nrow=dim(DayList)[1],ncol=dim(DayList)[2])
+
+# Traverse the Days List
+for (i in 1:dim(DayList)[1]) {
+  
+  tempRow = DayList[i,]
+  # Find the index of missing values
+  naInd = is.na(tempRow)
+  # Get mean of values present
+  mRow = mean(tempRow, na.rm = TRUE)
+  # Replace missing values with average
+  tempRow[naInd] = round(mRow)
+  # Insert new row into the matrix
+  DayList2[i,] = tempRow    }
+
+meanPerDay2 = mean(colSums(DayList2))
+print(paste("The Mean Per Day with no missing values is",as.character(round(meanPerDay2)),sep = " "))
+```
+
+```
+## [1] "The Mean Per Day with no missing values is 10766"
+```
+[1] "The Mean Per Day with no missing values is 10766"
+
+```r
+echo = TRUE
+medPerDay2 = median(colSums(DayList2))
+print(paste("The Median Per Day with no missing values is",as.character(round(medPerDay2)),sep = " "))
+```
+
+```
+## [1] "The Median Per Day with no missing values is 10762"
+```
+[1] "The Median Per Day with no missing values is 10762"
+
+The data seems to be fairly similar as with the imputed missing values.
+
+
+```r
+echo = TRUE
+###################################################################################################
+## 7.	Histogram of the total number of steps taken each day after missing values are imputed
+# Get unique days
+DaysSet = unique(ActivityData$date)
+# Preallocate empty data holder
+totPerDay2 = 0
+# Loop through days
+for (i in 1:length(DaysSet)) {
+  # Get temporary column = intervals for single day with missing values replaced by means
+  tempCol = DayList2[,i]
+  # Get new sum with imputed missing values
+  totPerDay2[i] = sum(tempCol)
+  
+}
+
+## Setup a png file to prepare for a plot.
+#png("Plot7RR.png", width=480, height=480) 
+
+# Generate the histogram
+hist(totPerDay2, breaks = 10, main = 'Total after missing values imputed',
+     ylab = '5 Minutes Interval', xlab = 'Total Number of Steps', col='blue')
+```
+
+![]
+[a link] (https://github.com/EJD2016/ReproducibleResearch/blob/master/unnamed-chunk-7-1.png)<!-- -->
+
+```r
+# Close the file.
+#dev.off()
+
+###################################################################################################
+# 8. Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
+# Get list of unique days
+DaysSet = unique(ActivityData$date)
+
+# Initialize vector for weekend day information
+weekEndDays = vector(mode="numeric", length=0)
+# initialize vector for week day information
+weekDays = vector(mode="numeric", length=0)
+
+# Traverse the set
+for (i in 1:length(DaysSet)) {
+  
+  CurrentDay <- DaysSet[i] 
+  
+  CurrentDayIn <- ActivityData$date == CurrentDay
+  
+  GetStepValues <- ActivityData$steps[CurrentDayIn] 
+  
+  ## All intervals are missing skip this day
+  if (sum(!is.na(GetStepValues))==0) {
+    next
+  } else {
+    # Check whether the day is a weekday or weekend day
+    checkDay = weekdays(as.Date(CurrentDay))
+    
+    # Determine if the day is in the weekday set or weekend set.
+    if (checkDay == 'Saturday' | checkDay == 'Sunday'){
+      weekEndDays = cbind(weekEndDays, GetStepValues)
+      ## The day is a weekday (Monday, Tuesday, Wednesday, Thursday, Friday)
+    } else {
+      weekDays = cbind(weekDays, GetStepValues)
+    }
+  }
+}
+
+## Calculate the mean of the rows of the weekend matrix
+weekEndMeans <- round(rowMeans(weekEndDays))
+## Calculate the mean of the rows of the week matrix
+weekMeans <- round(rowMeans(weekDays))
+
+## Generate the plots for the weekend and weekdays.
+par(mfrow = c(1,2))
+
+## Setup a png file to prepare for a plot.
+#png("Plot8aRR.png", width=480, height=480) 
+
+plot(weekEndMeans,type = "l",  xlab = '5 Minutes Interval', ylab = 'Average Number of Steps', 
+     main = 'Activity Pattern Weekend')
+
+## Close the file for the weekend plot.
+##dev.off()
+
+#png("Plot8bRR.png", width=480, height=480) 
+plot(weekMeans,type = "l", xlab = '5 Minutes Interval', ylab = 'Average Number of Steps',
+     main = 'Activity Pattern Weekdays')
+```
+
+![]
+[a link] (https://github.com/EJD2016/ReproducibleResearch/blob/master/unnamed-chunk-7-2.png)<!-- -->
+
+```r
+## Close the file for the weekday plot.
+#dev.off()
+
+###################################################################################################
+```
+There does seem to be some difference between the weekdays and weekend trends. Most people have more free
+time on the weekend, and thus probably fit in some more exercise time. On the other hand,during the week when most people 
+work they may be tired, or have other obligations, and will execercise less during the week.
