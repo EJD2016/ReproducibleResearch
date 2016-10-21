@@ -1,14 +1,9 @@
----
-title: 'Reproducible Research: Peer Assessment 1 - PA1_template.Rmd'
-author: "E.D."
-date: "October 20, 2016"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1 - PA1_template.Rmd
+E.D.  
+October 20, 2016  
 
-```{r}
 
+```r
 ###################################################################################################
 ## E.D. October 2016
 ## DS 5 Reproducible Research - Project 1
@@ -70,7 +65,11 @@ for (i in 1:length(DaysSet)) {
 # Plot histogram of total number of steps per day
 hist(TotalStepsEachDay, breaks = 5, col="blue", main='Total Number of Steps Each Day',
      ylab='5 Minutes Interval', xlab='# Steps per Day')
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
+
+```r
 # Close the file.
 #dev.off
 
@@ -79,13 +78,23 @@ hist(TotalStepsEachDay, breaks = 5, col="blue", main='Total Number of Steps Each
 meanPerDayt = mean(TotalStepsEachDay, na.rm = TRUE)
 print(paste("The Mean Per Day is",as.character(round(meanPerDayt)),sep = " "))
 ```
+
+```
+## [1] "The Mean Per Day is 10766"
+```
 [1] "The Mean Per Day is 10766"
-``` {r}
+
+```r
 medPerDayt = median(TotalStepsEachDay, na.rm = TRUE)
 print(paste("The Median Per Day is",as.character(round(medPerDayt)),sep = " "))
 ```
+
+```
+## [1] "The Median Per Day is 10765"
+```
 [1] "The Median Per Day is 10765""
-```{r}
+
+```r
 ###################################################################################################
 ## 4.	Time series plot of the average number of steps taken
 
@@ -108,15 +117,27 @@ for (i in 1:length(DaysSet)) {
 #png("Plot4RR.png", width=480, height=480) 
 
 plot(meanInt,type = 'l',xlab = '5 Minute Interval',ylab = 'Average Across All Days', main='Average Daily Activity Pattern')
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+```r
 # Close the file.
 #dev.off()
 ```
-```{r}
+
+```r
 ###################################################################################################
 ## 5.	The 5-minute interval that, on average, contains the maximum number of steps
 mean5minInt <- round(mean(MaxStepsInterval, na.rm = TRUE))
 print(paste(as.character(mean5minInt)," is the 5-minute interval that, on average, contains the max number of steps",sep = " "))
+```
+
+```
+## [1] "145  is the 5-minute interval that, on average, contains the max number of steps"
+```
+
+```r
 ## [1] "145  is the 5-minute interval that, on average, contains the max number of steps"
 
 ###################################################################################################
@@ -149,8 +170,13 @@ for (i in 1:length(DaysSet)) {
 numMissintervals = sum(is.na(DayList))
 print(paste("The total number of missing intervals is ",as.character(numMissintervals),sep = " "))
 ```
+
+```
+## [1] "The total number of missing intervals is  2304"
+```
 [1] "The total number of missing intervals is  2304"
-```{r}
+
+```r
 # Initialize an empty matrix
 DayList2 = matrix(data=NA,nrow=dim(DayList)[1],ncol=dim(DayList)[2])
 
@@ -170,16 +196,26 @@ for (i in 1:dim(DayList)[1]) {
 meanPerDay2 = mean(colSums(DayList2))
 print(paste("The Mean Per Day with no missing values is",as.character(round(meanPerDay2)),sep = " "))
 ```
+
+```
+## [1] "The Mean Per Day with no missing values is 10766"
+```
 [1] "The Mean Per Day with no missing values is 10766"
-```{r}
+
+```r
 medPerDay2 = median(colSums(DayList2))
 print(paste("The Median Per Day with no missing values is",as.character(round(medPerDay2)),sep = " "))
+```
+
+```
+## [1] "The Median Per Day with no missing values is 10762"
 ```
 [1] "The Median Per Day with no missing values is 10762"
 
 The data seems to be fairly similar as with the imputed missing values.
 
-```{r}
+
+```r
 ###################################################################################################
 ## 7.	Histogram of the total number of steps taken each day after missing values are imputed
 # Get unique days
@@ -201,7 +237,11 @@ for (i in 1:length(DaysSet)) {
 # Generate the histogram
 hist(totPerDay2, breaks = 10, main = 'Total after missing values imputed',
      ylab = '5 Minutes Interval', xlab = 'Total Number of Steps', col='blue')
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+
+```r
 # Close the file.
 #dev.off()
 
@@ -261,6 +301,11 @@ plot(weekEndMeans,type = "l",  xlab = '5 Minutes Interval', ylab = 'Average Numb
 #png("Plot8bRR.png", width=480, height=480) 
 plot(weekMeans,type = "l", xlab = '5 Minutes Interval', ylab = 'Average Number of Steps',
      main = 'Activity Pattern Weekdays')
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-7-2.png)<!-- -->
+
+```r
 ## Close the file for the weekday plot.
 #dev.off()
 
